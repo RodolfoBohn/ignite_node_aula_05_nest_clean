@@ -1,5 +1,11 @@
 @baseUrl = http://localhost:3333
 @authToken = {{authenticate.response.body.access_token}}
+@questionId = {{fetch_recent_questions.response.body.questions[0].id}}
+@questionSlug = {{fetch_recent_questions.response.body.questions[0].slug}}
+@answerId = {{list_question_answers.response.body.answers[0].id}}
+@commentOnQuestionId = {{list_question_comments.response.body.comments[0].id}}
+@commentOnAnswerId = {{list_answer_comments.response.body.comments[0].id}}
+
 
 # @name create_account
 POST {{baseUrl}}/accounts
@@ -7,7 +13,7 @@ Content-Type: application/json
 
 {
   "name": "Teste",
-  "email": "teste2@teste.com.br",
+  "email": "teste3@teste.com.br",
   "password": "123456"
 }
 
@@ -30,7 +36,7 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "title": "Nova pergunta completa",
+  "title": "Nova pergunta completa 6",
   "content": "Teste"
 }
 
@@ -38,5 +44,118 @@ Authorization: Bearer {{authToken}}
 
 # @name fetch_recent_questions
 GET {{baseUrl}}/questions
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name get_question_by_slug
+GET {{baseUrl}}/questions/{{questionSlug}}
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name edit_question
+PUT {{baseUrl}}/questions/{{questionId}}
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "title": "Pergunta Editada",
+  "content": "Teste"
+}
+
+###
+
+# @name delete_question
+DELETE {{baseUrl}}/questions/{{questionId}}
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name answer_question
+POST {{baseUrl}}/questions/{{questionId}}/answers
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "content": "Resposta teste 2"
+}
+
+###
+
+# @name list_question_answers
+GET {{baseUrl}}/questions/{{questionId}}/answers
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+
+###
+
+# @name edit_answer
+PUT {{baseUrl}}/answers/{{answerId}}
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "content": "Resposta teste editada"
+}
+
+###
+
+# @name delete_answer
+DELETE {{baseUrl}}/answers/{{answerId}}
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name comment_on_question
+POST {{baseUrl}}/questions/{{questionId}}/comments
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "content": "Novo Comentário na pergunta"
+}
+
+###
+
+# @name list_question_comments
+GET {{baseUrl}}/questions/{{questionId}}/comments
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name delete_comment_on_question
+DELETE {{baseUrl}}/questions/comments/{{commentOnQuestionId}}
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name comment_on_answer
+POST {{baseUrl}}/answers/{{answerId}}/comments
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "content": "Novo Comentário na resposta"
+}
+
+###
+
+# @name list_answer_comments
+GET {{baseUrl}}/answers/{{answerId}}/comments
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name delete_comment_on_answer
+DELETE {{baseUrl}}/answers/comments/{{commentOnAnswerId}}
 Content-Type: application/json
 Authorization: Bearer {{authToken}}

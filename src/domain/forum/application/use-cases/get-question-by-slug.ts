@@ -1,6 +1,8 @@
 import { Either, right } from '@/core/either'
 import { Question } from '../../enterprise/entities/question'
 import { QuestionsRepository } from '../repositories/questions-repository'
+import { Injectable } from '@nestjs/common'
+import { Public } from '@/infra/auth/public'
 
 interface IGetQuestionBySlugRequest {
   slug: string
@@ -13,6 +15,8 @@ type IGetQuestionBySlugResponse = Either<
   }
 >
 
+@Injectable()
+@Public()
 export class GetQuestionBySlugUseCase {
   constructor(private questionsRepository: QuestionsRepository) {}
 
